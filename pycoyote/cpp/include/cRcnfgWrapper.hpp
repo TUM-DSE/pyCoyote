@@ -31,6 +31,4 @@
 #include "cRcnfg.hpp"
 #include "pybind11/pybind11.h"
 
-namespace py = pybind11;
-
 #endif // _PYCOYOTE_CRCNFG_WRAPPER_HPP_

@@ -26,10 +26,29 @@
 
 #include "cRcnfgWrapper.hpp"
 
-// Bind C++ classes, functions from cRcnfg to Python
-PYBIND11_MODULE(_pycoyote, m, py::mod_gil_not_used()) {
-    py::class_<coyote::cRcnfg>(m, "CoyoteReconfig")
-        .def(py::init<unsigned int>(), py::arg("device") = 0, "")
-        .def("reconfigure_shell", &coyote::cRcnfg::reconfigureShell, py::arg("bitstream_path"), "")
-        .def("reconfigure_app", &coyote::cRcnfg::reconfigureApp, py::arg("bitstream_path"), py::arg("vfid"), "");
+PYBIND11_MODULE(_cRcnfg, m, pybind11::mod_gil_not_used()) {
+    pybind11::class_<coyote::cRcnfg>(m, "CoyoteReconfig")
+        
+        // -- constructor
+        .def(
+            pybind11::init<unsigned int>(), 
+            pybind11::arg("device") = 0,
+            ""
+        )
+
+        // -- reconfigureShell
+        .def(
+            "reconfigure_shell", 
+            &coyote::cRcnfg::reconfigureShell, 
+            pybind11::arg("bitstream_path"), 
+            ""
+        )
+        
+        // -- reconfigureApp
+        .def(
+            "reconfigure_app", 
+            &coyote::cRcnfg::reconfigureApp, 
+            pybind11::arg("bitstream_path"), pybind11::arg("vfid"), 
+            ""
+        );
 }

@@ -45,27 +45,34 @@ project(
 )
 
 # Add Python modules
-# NOTE: The module name starts with an underscore (_pycoyote), making it a "private" module
+# NOTE: The module name starts with an underscore, making it a "private" module
 # Then, all the Coyote Python modules are exposed as part of the pycoyote library via the main Python file, pyCoyote/__init__.py 
-pybind11_add_module(_pycoyote pycoyote/cpp/src/cRcnfgWrapper.cpp)
-target_include_directories(_pycoyote PRIVATE pycoyote/cpp/include/)
+set(BUILD_TARGETS _cThread _cRcnfg)
+pybind11_add_module(_cThread pycoyote/cpp/src/cThreadWrapper.cpp)
+pybind11_add_module(_cRcnfg pycoyote/cpp/src/cRcnfgWrapper.cpp)
 
 # Include headers from Coyote and pybind11
-set(COYOTE_INCLUDE_PATH ${COYOTE_DIR}/sw/include)
-target_include_directories(_pycoyote PRIVATE ${COYOTE_INCLUDE_PATH})
-
 set(PYBIND_INCLUDE_PATH ${PYBIND_DIR}/include)
-target_include_directories(_pycoyote PRIVATE ${PYBIND_INCLUDE_PATH})
+set(COYOTE_INCLUDE_PATH ${COYOTE_DIR}/sw/include)
+set(PYCOYOTE_INCLUDE_PATH ${CMAKE_SOURCE_DIR}/pycoyote/cpp/include/)
+
+foreach(t ${BUILD_TARGETS})
+    target_include_directories(${t} PRIVATE ${PYBIND_INCLUDE_PATH} ${COYOTE_INCLUDE_PATH} ${PYCOYOTE_INCLUDE_PATH})
+endforeach()
 
 # Libraries to link against
-target_link_libraries(_pycoyote PRIVATE Coyote)
-target_link_directories(_pycoyote PRIVATE /usr/local/lib)
+foreach(t ${BUILD_TARGETS})
+    target_link_libraries(${t} PRIVATE Coyote)
+    target_link_directories(${t} PRIVATE /usr/local/lib)
+endforeach()
 
-# Make sure _pycoyote can find libCoyote.so at runtime
-set_target_properties(_pycoyote PROPERTIES
-    BUILD_WITH_INSTALL_RPATH TRUE
-    INSTALL_RPATH "$ORIGIN"
-)
+# Make sure Python modules can find libCoyote.so at runtime
+foreach(t ${BUILD_TARGETS})
+    set_target_properties(${t} PROPERTIES
+        BUILD_WITH_INSTALL_RPATH TRUE
+        INSTALL_RPATH "$ORIGIN"
+    )
+endforeach()
 
-# Install the bindings and Coyote as a shared library
-install(TARGETS _pycoyote Coyote LIBRARY DESTINATION pycoyote)
+# Install the bindings (_cThread, _cRcnfg) and Coyote as a shared library
+install(TARGETS ${BUILD_TARGETS} Coyote LIBRARY DESTINATION pycoyote)

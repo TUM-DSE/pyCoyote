@@ -4,4 +4,5 @@
 # to be auto-discovered; in our case, <package_name> corresponds to pycoyote
 
 # Expose all the Python functions, classes etc.
-from ._pycoyote import *
+from ._cThread import *
+from ._cRcnfg import *
