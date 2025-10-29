@@ -1,0 +1,16 @@
+[build-system]
+requires = ["scikit-build-core>=0.8.0"]
+build-backend = "scikit_build_core.build"
+
+[project]
+name = "pycoyote"
+version = "0.1.0"
+description = "Python bindings for Coyote's software stack"
+authors = [{ name = "Systems Group, ETH Zurich" }]
+requires-python = ">=3.8"
+license = "MIT"
+license-files = ["LICENSE"]
+readme = "README.md"
+
+[tool.scikit-build]
+minimum-version = "build-system.requires"
