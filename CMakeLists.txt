@@ -47,7 +47,8 @@ project(
 # Add Python modules
 # NOTE: The module name starts with an underscore (_pycoyote), making it a "private" module
 # Then, all the Coyote Python modules are exposed as part of the pycoyote library via the main Python file, pyCoyote/__init__.py 
-pybind11_add_module(_pycoyote pycoyote/cpp/cRcnfgWrapper.cpp)
+pybind11_add_module(_pycoyote pycoyote/cpp/src/cRcnfgWrapper.cpp)
+target_include_directories(_pycoyote PRIVATE pycoyote/cpp/include/)
 
 # Include headers from Coyote and pybind11
 set(COYOTE_INCLUDE_PATH ${COYOTE_DIR}/sw/include)
