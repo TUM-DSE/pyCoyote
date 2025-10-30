@@ -6,3 +6,4 @@
 # Expose all the Python functions, classes etc.
 from ._cThread import *
 from ._cRcnfg import *
+from .py.coyote_buffer import *
