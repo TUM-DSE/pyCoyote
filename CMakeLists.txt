@@ -29,17 +29,11 @@ cmake_minimum_required(VERSION 3.5)
 # Dependency paths
 set(COYOTE_DIR ${CMAKE_SOURCE_DIR}/deps/Coyote/)
 set(PYBIND_DIR ${CMAKE_SOURCE_DIR}/deps/pybind11/)
+
 # Paths to include directories
 set(PYBIND_INCLUDE_PATH ${PYBIND_DIR}/include)
 set(COYOTE_INCLUDE_PATH ${COYOTE_DIR}/sw/include)
 set(PYCOYOTE_INCLUDE_PATH ${CMAKE_SOURCE_DIR}/pycoyote/cpp/include/)
-
-# Include Coyote's CMake modules (which builds Coyote as a shared library)
-set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${COYOTE_DIR}/cmake)
-find_package(CoyoteSW REQUIRED)
-
-# Include pybind11
-add_subdirectory(${PYBIND_DIR} pybind11)    
 
 # Define project properties
 project(
@@ -47,6 +41,23 @@ project(
     VERSION ${SKBUILD_PROJECT_VERSION}
     LANGUAGES CXX
 )
+
+# For GPU - FPGA P2P, EN_GPU must be defined when compiling pyCoyote
+option(EN_GPU "Enable GPU support in pyCoyote" OFF)
+if (DEFINED ENV{PYCOYOTE_EN_GPU})
+    if ($ENV{PYCOYOTE_EN_GPU})
+        set(EN_GPU ON CACHE BOOL "Enable GPU support in pyCoyote" FORCE)
+        message(STATUS "GPU support enabled")
+        add_compile_definitions(EN_GPU)
+    endif()
+endif()
+
+# Include Coyote's CMake modules (which builds Coyote as a shared library)
+set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${COYOTE_DIR}/cmake)
+find_package(CoyoteSW REQUIRED)
+
+# Include pybind11
+add_subdirectory(${PYBIND_DIR} pybind11)    
 
 # Define pyCoyoteLibs as a shared library
 add_library(pyCoyoteLibs SHARED pycoyote/cpp/src/cPythonLibs.cpp)
