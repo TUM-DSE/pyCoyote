@@ -28,7 +28,7 @@
 #define _PYCOYOTE_CRCNFG_WRAPPER_HPP_
 
 #include <string>
-#include "cRcnfg.hpp"
+#include "coyote/cRcnfg.hpp"
 #include "pybind11/pybind11.h"
 
 #endif // _PYCOYOTE_CRCNFG_WRAPPER_HPP_

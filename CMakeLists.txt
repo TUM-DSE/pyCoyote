@@ -52,9 +52,8 @@ if (DEFINED ENV{PYCOYOTE_EN_GPU})
     endif()
 endif()
 
-# Include Coyote's CMake modules (which builds Coyote as a shared library)
-set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${COYOTE_DIR}/cmake)
-find_package(CoyoteSW REQUIRED)
+# Include Coyote
+add_subdirectory(${COYOTE_DIR}/sw coyote)
 
 # Include pybind11
 add_subdirectory(${PYBIND_DIR} pybind11)    
