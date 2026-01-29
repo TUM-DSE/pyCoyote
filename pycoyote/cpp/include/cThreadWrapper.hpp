@@ -27,8 +27,8 @@
 #ifndef _PYCOYOTE_CTHREAD_WRAPPER_HPP_
 #define _PYCOYOTE_CTHREAD_WRAPPER_HPP_
 
-#include "cThread.hpp"
 #include "cPythonLibs.hpp"
+#include "coyote/cThread.hpp"
 
 #include "pybind11/stl.h"
 #include "pybind11/pybind11.h"
