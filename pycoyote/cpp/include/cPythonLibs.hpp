@@ -46,6 +46,7 @@
 #include <string>
 #include <stdexcept>
 #include <unordered_map>
+#include <cstdint>
 
 namespace pycoyote {
 
